@@ -44,8 +44,6 @@ int md5cal(char *file, char *md5, size_t size)
     }
     fclose(fd);
 
-    // printf("%s  %s\n", md5, file);
-
     return ret;
 }
 
@@ -61,5 +59,6 @@ int main(int argc, char **argv)
     printf("file: %s\n", file);
     char md5[33] = {0};
     md5cal(file, md5, 33);
+    printf("%s  %s\n", md5, file);
     return 1;
 }

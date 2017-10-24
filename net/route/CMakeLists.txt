@@ -10,8 +10,7 @@ set(CMAKE_C_FLAGS "-std=gnu99 ${CMAKE_C_FLAGS}")
 message(STATUS ${CMAKE_C_FLAGS})
 
 set(sources 
-    md5cal.c
+    route.c
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${sources})
-target_link_libraries(${CMAKE_PROJECT_NAME} ssl crypto)

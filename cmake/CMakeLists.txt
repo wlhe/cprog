@@ -10,7 +10,6 @@ set(CMAKE_C_FLAGS "-std=gnu99 ${CMAKE_C_FLAGS}")
 message(STATUS ${CMAKE_C_FLAGS})
 
 set(sources 
-    md5cal.c
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${sources})

@@ -9,24 +9,44 @@ void timer_handler(int signo)
     printf("signo: %d\n", signo);
 }
 
+void timer_sa_handler(int signo, siginfo_t *si, void *uc)
+{
+    printf("signo: %d\n", signo);
+    // printf("sival_ptr = %p; ", si->si_value.sival_ptr);
+    printf("*sival_ptr = 0x%lx\n", (long)*(timer_t *)(si->si_value.sival_ptr));
+}
+
+static timer_t timer;
 void timer_init(void)
 {
-    timer_t timer;
     struct sigevent evp;
     struct itimerspec its;
+    struct sigaction sa;
+
     int ret = 0;
 
-    evp.sigev_signo = SIGUSR1;
+    sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = timer_sa_handler;
+    sigemptyset(&sa.sa_mask);
+
+    ret = sigaction(SIGRTMIN, &sa, NULL);
+    if (ret < 0) {
+        perror("sigaction error\n");
+        return;
+    }
+
+    evp.sigev_signo = SIGRTMIN;
     evp.sigev_notify = SIGEV_SIGNAL;
     evp.sigev_value.sival_ptr = &timer;
 
-    signal(evp.sigev_signo, timer_handler);
+    // signal(evp.sigev_signo, timer_handler);
 
     ret = timer_create(CLOCK_REALTIME, &evp, &timer);
     if (ret < 0) {
         perror("timer_create error\n");
         return;
     }
+    printf("timer id = 0x%lx\n", (long)timer);
 
     its.it_value.tv_sec = 1;
     its.it_value.tv_nsec = 0;
@@ -36,6 +56,7 @@ void timer_init(void)
     ret = timer_settime(timer, 0, &its, NULL);
     if (ret < 0) {
         perror("timer_settime error\n");
+        return;
     }
 }
 

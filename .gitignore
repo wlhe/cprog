@@ -2,3 +2,5 @@ build
 .vscode
 *.o
 *.out
+*.so
+*.a

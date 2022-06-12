@@ -1,0 +1,14 @@
+{
+global:
+    func2;
+    extern "C++" {
+        "func4()";
+        "ht::func6()";
+        "A::func8()";
+        "A::func14()";
+        B::*;
+        ns::*
+    };
+local:
+    *;
+};

@@ -20,15 +20,21 @@ extern "C" {
 
 #define COLOR_HIGHLIGHT "\33[1m"
 
+#ifdef LOGTAG
+#define _TAG "[" LOGTAG "]"
+#else
+#define _TAG
+#endif
+
 #define ENABLE_CONSOLE_LOG
 #ifdef ENABLE_CONSOLE_LOG
-#define LOG(fmt, ...) printf(fmt, ##__VA_ARGS__)
+#define LOG(fmt, ...) printf(_TAG fmt, ##__VA_ARGS__)
 #else
 #define LOG
 #endif
 
-#define LOGD(fmt, ...) LOG((COLOR_GREEN fmt COLOR_END), ##__VA_ARGS__)
-#define LOGI(fmt, ...) LOG((COLOR_WHITE fmt COLOR_END), ##__VA_ARGS__)
+#define LOGD(fmt, ...) LOG((COLOR_WHITE fmt COLOR_END), ##__VA_ARGS__)
+#define LOGI(fmt, ...) LOG((COLOR_GREEN fmt COLOR_END), ##__VA_ARGS__)
 #define LOGW(fmt, ...) LOG((COLOR_YELLOW fmt COLOR_END), ##__VA_ARGS__)
 #define LOGE(fmt, ...) LOG((COLOR_RED fmt COLOR_END), ##__VA_ARGS__)
 #define LOGF(fmt, ...) LOG((COLOR_HIGHLIGHT COLOR_RED fmt COLOR_END), ##__VA_ARGS__)
